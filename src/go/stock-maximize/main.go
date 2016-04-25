@@ -64,8 +64,7 @@ func main() {
 
 func getProfit(startingIdx int, endingIdx int, testCase []int) int64 {
 	sharePrice := testCase[endingIdx]
-	cost := 0
-	sharesBought := 0
+	cost, sharesBought := 0, 0
 	for k := startingIdx; k < endingIdx; k++ {
 		cost = cost + testCase[k]
 		sharesBought++
@@ -74,8 +73,7 @@ func getProfit(startingIdx int, endingIdx int, testCase []int) int64 {
 }
 
 func getMax(startingIdx int, endingIdx int, testCase []int) int {
-	m := 0
-	mi := 0
+	m, mi := 0, 0
 	for k := startingIdx; k <= endingIdx; k++ {
 		v := testCase[k]
 		if v > m {
