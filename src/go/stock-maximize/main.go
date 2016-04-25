@@ -15,70 +15,53 @@ func main() {
 		scanner := bufio.NewScanner(os.Stdin)
 		scanner.Split(bufio.ScanWords)
 		testCases := make([][]int, t)
-		testCaseMax := make([]int, t)
 		for i := 0; i < t; i++ {
 			if scanner.Scan() {
 				n, _ := strconv.Atoi(scanner.Text())
 				testCase := make([]int, n)
-				m, mi := 0, 0
 				for j := 0; j < n; j++ {
 					if scanner.Scan() {
 						c, _ := strconv.Atoi(scanner.Text())
 						testCase[j] = c
-						if c > m {
-							m = c
-							mi = j
-						}
 					}
 				}
-				testCaseMax[i] = mi
 				testCases[i] = testCase
 			}
 		}
 
-		for j, testCase := range testCases {
-			var profit int64
+		for _, testCase := range testCases {
+			var profit int64 = 0
 			l := len(testCase) - 1
-
-			profit = getProfit(0, testCaseMax[j], testCase)
-			s := testCaseMax[j] + 1
-			e := l
-			for {
-				if s > e {
+			s, e := 0, l
+			for s <= e {
+				mi := getMaxInRange(s, e, testCase)
+				profit += getProfit(s, mi, testCase)
+				if mi == l {
 					break
 				}
-				maxIdx := getMax(s, e, testCase)
-				profit = profit + getProfit(s, maxIdx, testCase)
-				if maxIdx == l {
-					break
-				}
-				s = maxIdx + 1
-			}
-			if profit < 0 {
-				profit = 0
+				s = mi + 1
 			}
 			fmt.Println(profit)
 		}
 	}
 }
 
-func getProfit(startingIdx int, endingIdx int, testCase []int) int64 {
-	sharePrice := testCase[endingIdx]
+func getProfit(start int, end int, testCase []int) int64 {
+	sharePrice := testCase[end]
 	cost, sharesBought := 0, 0
-	for k := startingIdx; k < endingIdx; k++ {
-		cost = cost + testCase[k]
+	for k := start; k <= end; k++ {
+		cost += testCase[k]
 		sharesBought++
 	}
 	return int64(((sharePrice * sharesBought) - cost))
 }
 
-func getMax(startingIdx int, endingIdx int, testCase []int) int {
+func getMaxInRange(start int, end int, testCase []int) int {
 	m, mi := 0, 0
-	for k := startingIdx; k <= endingIdx; k++ {
+	for k := start; k <= end; k++ {
 		v := testCase[k]
 		if v > m {
-			m = v
-			mi = k
+			m, mi = v, k
 		}
 	}
 	return mi
