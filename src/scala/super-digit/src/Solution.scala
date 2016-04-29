@@ -5,8 +5,7 @@
       val n = input(0)
       val k = input(1).toLong
 
-      var first = n.map(c => c.asDigit*k)
-      var superDigit = getSuperDigit(first.sum.toString)
+      val superDigit = getSuperDigit(n.map(c => c.asDigit*k).sum.toString)
       println(superDigit)
     }
     
