@@ -1,4 +1,5 @@
- object Solution {
+// https://www.hackerrank.com/challenges/super-digit
+object Solution {
 
     def main(args: Array[String]) {
       val input = readLine().split(" ")
