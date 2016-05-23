@@ -38,24 +38,27 @@ func main() {
 			c := testCase[2]
 			result := "NO"
 
-			if c == a || c == b {
-				result = "YES"
-				continue
-			} else {
-				r := a - b
-
-				for r >= b {
-					r = r - b
-					if r > 0 && c%r == 0 {
-						result = "YES"
-					}
+			r, i, k := 1, 1, 0
+			for r > 0 && r != c {
+				pr := (i * a) + ((-i) * b)
+				if pr < r {
+					i++
 				}
-
-				if r > 0 && c%r == 0 {
-					result = "YES"
-				}
+				k++
 			}
+			fmt.Println(i)
+			fmt.Println(k)
+			fmt.Println(r)
 
+			//			r := a - b
+			//			for r >= b {
+			//				r = r - b
+			//			}
+			//			if r > 0 && c%r == 0 {
+			//				result = "YES"
+			//			} else if c%(b-r) == 0 {
+			//				result = "YES"
+			//			}
 			fmt.Println(result)
 		}
 	}
