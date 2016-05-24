@@ -36,30 +36,35 @@ func main() {
 				b = testCase[0]
 			}
 			c := testCase[2]
-			result := "NO"
 
-			r, i, k := 1, 1, 0
-			for r > 0 && r != c {
-				pr := (i * a) + ((-i) * b)
-				if pr < r {
-					i++
+			x, result := 0, "NO"
+			if c < a {
+				for ok := true; ok; {
+					z := swapJugs(x, a, b)
+					if z == 0 {
+						break
+					}
+					ok = c%z != 0
+					if !ok {
+						result = "YES"
+						break
+					}
+					x = z
 				}
-				k++
 			}
-			fmt.Println(i)
-			fmt.Println(k)
-			fmt.Println(r)
-
-			//			r := a - b
-			//			for r >= b {
-			//				r = r - b
-			//			}
-			//			if r > 0 && c%r == 0 {
-			//				result = "YES"
-			//			} else if c%(b-r) == 0 {
-			//				result = "YES"
-			//			}
 			fmt.Println(result)
 		}
 	}
+}
+
+func swapJugs(x int, a int, b int) int {
+	// take remaining in a and dump in b
+	br := b - x
+	r := a
+	for r >= b {
+		r = r - br
+		// dump out b
+		br = b
+	}
+	return r
 }
