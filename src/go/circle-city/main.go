@@ -26,12 +26,35 @@ func main() {
 			}
 			testCases[i] = testCase
 		}
-
+		points := make(map[int64]int64)
 		for _, testCase := range testCases {
+			result := "impossible"
 			d := testCase[0]
 			k := testCase[1]
-			fmt.Printf("d:%v k:%v\n", d, k)
-			fmt.Println(math.Sqrt(float64(d)))
+			s, exists := points[d]
+			if !exists {
+				s = 0
+				r, rm := math.Modf(math.Sqrt(float64(d)))
+				if rm == 0 {
+					s = 4
+				}
+				for x := int64(r - 1); x > 0; x-- {
+					l, _ := math.Modf(math.Sqrt(float64(d - (x * x))))
+					if int64(l) <= x {
+						s += 8
+					}
+				}
+
+				if s <= k {
+					points[d] = s
+				}
+			}
+			if k == 0 && s > 0 {
+				result = "impossible"
+			} else if s == 0 && k == 0 || s <= k {
+				result = "possible"
+			}
+			fmt.Println(result)
 		}
 	}
 }
