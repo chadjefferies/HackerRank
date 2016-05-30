@@ -34,14 +34,15 @@ func main() {
 			s, exists := points[d]
 			if !exists {
 				s = 0
-				r, rm := math.Modf(math.Sqrt(float64(d)))
-				if rm == 0 {
-					s = 4
-				}
-				for x := int64(r - 1); x > 0; x-- {
-					l, _ := math.Modf(math.Sqrt(float64(d - (x * x))))
-					if int64(l) <= x {
-						s += 8
+				r, _ := math.Modf(math.Sqrt(float64(d)))
+				for x := int64(r); x > 0; x-- {
+					l, lm := math.Modf(math.Sqrt(float64(d - (x * x))))
+					if lm == 0 {
+						if l == 0 {
+							s += 4
+						} else if int64(l) <= x {
+							s += 8
+						}
 					}
 				}
 
