@@ -12,7 +12,7 @@ func main() {
 	for i := 0; i < t; i++ {
 		var d, k, pts float64
 		fmt.Scan(&d, &k)
-		r, _ := math.Modf(math.Sqrt(d))
+		r := math.Floor(math.Sqrt(d))
 		for x := r; x > 0; x-- {
 			y, f := math.Modf(math.Sqrt(d - (x * x)))
 			if f == 0 {
