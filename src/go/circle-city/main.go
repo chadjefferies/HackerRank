@@ -2,60 +2,31 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"math"
-	"os"
-	"strconv"
 )
 
 func main() {
 	var t int
-	_, err := fmt.Scan(&t)
-	if err == nil {
-		scanner := bufio.NewScanner(os.Stdin)
-		scanner.Split(bufio.ScanWords)
-		testCases := make([][]int64, t)
-		for i := 0; i < t; i++ {
-			testCase := make([]int64, 2)
-			for j := 0; j < 2; j++ {
-				if scanner.Scan() {
-					c, _ := strconv.ParseInt(scanner.Text(), 0, 64)
-					testCase[j] = int64(c)
+	fmt.Scan(&t)
+	for i := 0; i < t; i++ {
+		var d, k, pts float64
+		fmt.Scan(&d, &k)
+		r, _ := math.Modf(math.Sqrt(d))
+		for x := r; x > 0; x-- {
+			y, f := math.Modf(math.Sqrt(d - (x * x)))
+			if f == 0 {
+				if y == 0 {
+					pts += 4 // only 4 possible values (x,0) (0,x) (-x,0) (0,-x)
+				} else if y <= x {
+					pts += 8
 				}
 			}
-			testCases[i] = testCase
 		}
-		points := make(map[int64]int64)
-		for _, testCase := range testCases {
-			result := "impossible"
-			d := testCase[0]
-			k := testCase[1]
-			s, exists := points[d]
-			if !exists {
-				s = 0
-				r, _ := math.Modf(math.Sqrt(float64(d)))
-				for x := int64(r); x > 0; x-- {
-					l, lm := math.Modf(math.Sqrt(float64(d - (x * x))))
-					if lm == 0 {
-						if l == 0 {
-							s += 4
-						} else if int64(l) <= x {
-							s += 8
-						}
-					}
-				}
-
-				if s <= k {
-					points[d] = s
-				}
-			}
-			if k == 0 && s > 0 {
-				result = "impossible"
-			} else if s == 0 && k == 0 || s <= k {
-				result = "possible"
-			}
-			fmt.Println(result)
+		if pts <= k {
+			fmt.Println("possible")
+		} else {
+			fmt.Println("impossible")
 		}
 	}
 }
