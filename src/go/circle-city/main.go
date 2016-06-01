@@ -14,8 +14,10 @@ func main() {
 		fmt.Scan(&d, &k)
 		r := math.Floor(math.Sqrt(d))
 		for x := r; x > 0; x-- {
+			// https://archive.lib.msu.edu/crcmath/math/math/s/s066.htm
 			y, f := math.Modf(math.Sqrt(d - (x * x)))
 			if f == 0 {
+				// a whole number
 				if y == 0 {
 					pts += 4 // only 4 possible values (x,0) (0,x) (-x,0) (0,-x)
 				} else if y <= x {
